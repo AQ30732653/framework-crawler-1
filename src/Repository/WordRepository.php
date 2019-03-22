@@ -19,44 +19,19 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
-    // /**
-    //  * @return Word[] Returns an array of Word objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Word
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     public function findOneByValueAndFrom($value, $from)
     {
-        return $this->createQueryBuilder('w')
+        $model = $this->createQueryBuilder('w')
             ->andWhere('w.value = :val')
             ->andWhere('w.from = :from')
             ->setParameter('val', $value)
             ->setParameter('from', $from)
             ->getQuery()
             ->getOneOrNullResult();
+        unset($value);
+        unset($from);
+
+        return $model;
     }
 
     public function createOrUpdate($array)
@@ -78,7 +53,9 @@ class WordRepository extends ServiceEntityRepository
                 $entityManager->persist($word);
                 $entityManager->flush();
             }
+            unset($word);
         } catch (\Exception $exception) {
+            var_dump('記憶體使用：'.memory_get_usage());
             var_dump($exception->getMessage());exit;
         }
 

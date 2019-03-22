@@ -114,40 +114,11 @@ class CrawlMethodCommand extends Command
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    private function getFileName($string)
-    {
-        $array = explode('.php', $string);
-        $result = (isset($array[0])) ? $array[0] : $array;
+        $matches = null;
 
         return $result;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return string
-     */
-    private function getNameSpace($content)
-    {
-        preg_match('/namespace[\s\n]+(\S+)[\s\n]/', $content, $match);
-
-        if (!empty($match)) {
-            $nameSpace = (isset($match[1])) ? $match[1] : $match[0];
-            $array = explode(';', $nameSpace);
-            $result = (isset($array[0])) ? $array[0] : $array;
-            return $result;
-        }
-
-        return '';
-    }
 
     /**
      * @param string $string
@@ -156,33 +127,21 @@ class CrawlMethodCommand extends Command
      */
     private function formatToArray($string)
     {
-        $matches = preg_split('/((?:^|[A-Z])[a-z]+)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
         $result = [];
 
-        foreach ($matches as $match) {
-            if (!empty($match)) {
-                $result[] = strtolower($match);
+        if (!empty($string)) {
+            $matches = preg_split('/((?:^|[A-Z])[a-z]+)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+            foreach ($matches as $match) {
+                if (!empty($match)) {
+                    $result[] = strtolower($match);
+                }
             }
+
+            $matches = null;
         }
 
-        return $result;
-    }
-
-    /**
-     * @param string $filename
-     * @param string $content
-     *
-     * @return bool
-     */
-    private function isClassFile($filename, $content)
-    {
-        $pattern = '/class+[\s]+'.$filename.'/';
-        preg_match($pattern, $content, $match);
-        $result = true;
-
-        if (empty($match)) {
-            $result = false;
-        }
+        $string = null;
 
         return $result;
     }

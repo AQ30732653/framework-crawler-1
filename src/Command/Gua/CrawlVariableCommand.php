@@ -6,11 +6,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-
 use Symfony\Component\Finder\Finder;
-use ReflectionClass;
 use App\Repository\WordRepository;
-use ReflectionException;
 
 class CrawlVariableCommand extends Command
 {
@@ -46,7 +43,91 @@ class CrawlVariableCommand extends Command
         $output->writeln([
             'Framework Crawler',
             '======開始======',
-            '',
+            '
+__        __   _                          
+\ \      / /__| | ___ ___  _ __ ___   ___ 
+ \ \ /\ / / _ \ |/ __/ _ \| \'_ ` _ \ / _ \
+  \ V  V /  __/ | (_| (_) | | | | | |  __/
+   \_/\_/ \___|_|\___\___/|_| |_| |_|\___|
+  
+            ',
+            '
+            
+
+                                                         @;:,
+                                               .\',      \',,,,,
+                                              @,,,@  +. #,,,,:
+                                              ,,,,,\'@:\',@,,,,,
+                                              :,\';,,,,,,\',,,,,`
+                                              \';,,,,,,,,,:,,,,.
+                                            :;,,@@,,,,,,,,,,,,`
+                                         :@,,,,,,,#,,,,,,,,,,,
+                                       ,;:,,,,,,,,,,,,,,,,,,,;@
+                                      #:,,,,,,,,,,,,,,,,,,,,,,,
+                                      @:,,,,,,,,@,,,,,,,,,,,,,,@
+                                       @,+,,,,,,@\',,,,,,,,,,,,,:
+                                        ,@.,,,,,,,,,,,,,,,,,,,,,`
+                                     \'@@\',,:,,,,,,,,,,,,,,,,,,,,@
+                                     @@@@,,,,,,,,,,,,,,,,,,,,,,,@
+                                    `:@@\',,,,,,,,,,,,,,,,,,,,,,,\'
+                                   `,:\',,,,,,,,,:\',,,,,,,,,,,,,,;
+                                   ;,,,,,,,,,,,,\',,,,,,,,,,,,,,,;
+                                   #,,;,,,,,,,,,;,,,,,,,,,,,,,,,@
+                                   :,,\',,,,,,,,;,,,,,,,,,,,,,,,,@
+                                   .,,,@,,,,,,,,,,,,,,,,,,,,,,,,,
+                                    ;,,,#,,,,@,,,,,,,,,,,,,,,,,:
+                                    @,,,,,:,,,,,,,,,,,,,,,,,,,,+@
+                                    ,#,,,#,,,,,,,,,,,,,,,,,,,,,,;\',
+                                    \'\',,,,@,,,,,,,,,,,,,,@@+\'\';;;\':
+                                   +\';#,,,,,,,,,,,,,,,,@;\';\'#@+\';;
+                                 #;\'\'\'+@,,,,,,,,,,,,,@;\'\'@\';\'\'\'\'\'@
+                                 \'\'\'\'\'#\'@,,,,,,,,,,@;\';@;\'@;\';\'\';\',
+                                 #;;#+@;@#,,,,,,+@;\'\'\';#\'\';\'\';\'#;;@
+                                #@\'#\';;;+\'\',,,#\';\'\'\';++\'\';\'\'\'\'\'\'+\'@
+                               @@\':,,,@;;\'\';;;\';\'\';+@;\'\'\'@\'\'\'\'\'\'\';`
+                            \'@;,,,,,,,,,#\'\';\';@++@+;\'\'\'\'\';\'\'\'\'\'\'\'@
+                          @\',,,,,,,,,,,,,+;\'\'#;\'\'\'\'\'\'\'#\'@;;\'\'\'\'\'\'@
+                         +,,,,,,,,,,,,,,,,,@;\';+\'\'\'\';;@\'@\'\'\'\'\'\'\'\'@
+                        :,,,,,,,,,,,,,,,,,,,@\'\';@;\'\';@+;#\'\'\'\'\'\'\'\'\'
+                       \',,,,,,,,,,,,,,,,,,,,,@\'\'\'#;\'\'\'+#+\'\'\'\'\'\'\'\'\'@
+                      @,,,,,,,,,,,,,,,,,,,,,,,#\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'\'\';.
+                     :,,,,,,,,,,,,,,,,,,,,,,,,,\'\'\';\'\'\'\';\'\'\'\'\'\'\'\'\'\'\'+
+       @\',@          \',,,,,,,,,,,,,,,,,,,,,,,,,@;\'\'\'\'\'\';\'\'\'\'\'\'\'\'\'\'+@
+      ,,,,,;        `,,,,,,,,,,,,,,,,,,,,,,,,,,,@\'\'\'\'\'\';\'\'\'\'\';\'@@,+
+     ;#,,,,,`       @,,,,,,,,,,,,,,,,,,,,,,,,,,,,;\'\'\'\'\';\'\'\'\';;@,,,
+     +:,,,,,;   `+;,\',,,,,,,,,,,,,,,,,,,,,,,,,,,,@\'\'\'\'\'\'###@+,,,,,`
+     @:,,,,,@ `@:,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#\'\'\'\'\';,,,,,,,,,:
+     @:,,,,,@#,,,,,,+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,@\'\'\'\'\';,,,,,,,,,#
+     @::,,,,;,,,,,,,\',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\';\'\'\'\'+,,,,,,,,@
+     #:;,,,,,,,,,,,,+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,@;\'\'\'\'@,,,,,,,,@
+     @::,,,:,,,,,,,,@,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,+\'\'\'#+,,,,,,,,@
+     @::,,,,,,,,,,,,\',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,;;\'\'#@,,,,,,,,@
+     @::,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,@\'\'+,@,,,,,,,:
+     ;:,,,,,,,,,,,,,,\',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\'\'+ +,,,,,,,,
+      :,,,,,,,,,,,,,,#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\'+;@  ,,,,,,,,`
+       ;,,,,\'@+#@@@@+:+,,,,,,,,,,,+\':,,\'@,,,,,,,,,,,,\';##  @,,,,,,@#@
+         `            .,,,,,,,,,@,,,,,,,,;:,,,,,,,,;. .++  .,,,,,,,,,;
+                       +,,,,,,,+,,,,,,,,,,+,,,,,,,,         @,,,,,,,,,`
+                        @,,,,,;,,,,,,,,,,,,,,,,,,@           ,,,,,,,,,,
+                     ,:  +,,,\',,,,,,,,,,,,,;,,,,@            .,,,,,,,#
+                   ;,,,,@ :.;,,,,,,,,,,,,,,,,,:,               +#;\'#\'
+                  ,:;,,,,@ :,,,,,,,,,,,,,,@,,@
+                  #::,,,,,,,,,,,,,,,,,,,,:.@
+                  :::#,,,,,,,,,,,,,,,,,,,+
+                  \'::\',,,,,,,,,,,,,,,,,,#
+                  ;::+,,,,,,,,,,,,,,,,;,
+                  :::\',,,,,,,,,,,,,,,@
+                  :::;,,,;,,,,,,,,@#
+                  :::\',,,@,,,,,,:@
+                  :::+,,,,,,,,,@
+                  +::#,,,,,,,@
+                  @::,,,,,,@`
+                   :+,,,:@
+                    @@\'
+
+
+            
+            '
         ]);
         $output->writeln('Whoa!');
         $output->writeln('路徑：' . $targetPath);
@@ -55,36 +136,51 @@ class CrawlVariableCommand extends Command
         $finder->files()->in($targetPath)->name('/\.php$/');
         $count = 0;
 
-        foreach ($finder as $file) {
-            $content = file_get_contents($file->getRealPath());
-            $output->writeln('檔案名稱：'.$file->getFilename());
-            $variables = $this->getVariable($content);
+        try {
+            foreach ($finder as $file) {
+                $content = file_get_contents($file->getRealPath());
+                $output->writeln('檔案名稱：'.$file->getFilename());
+                $variables = $this->getVariable($content);
+                $content = null;
 
-            foreach ($variables as $variable) {
+                foreach ($variables as $variable) {
 
-                $array = $this->formatToArray($variable);
+                    try {
+                        $array = $this->formatToArray($variable);
 
-                if (!empty($array)) {
-                    foreach ($array as $value) {
-                        $tempInput['value'] = $value;
-                        $tempInput['from'] = 'variable';
+                        if (!empty($array)) {
+                            foreach ($array as $value) {
+                                $tempInput['value'] = $value;
+                                $tempInput['from'] = 'variable';
+                                $output->writeln([
+                                    '--------',
+                                    '檔案位置：'.$file->getRealPath()
+                                ]);
+                                $this->wordRepository->createOrUpdate($tempInput);
+                                $output->writeln([
+                                    '儲存成功'.$value,
+                                    '--------'
+                                ]);
+
+                                unset($tempInput['value']);
+                                unset($tempInput['from']);
+                            }
+                            unset($array);
+                        }
+                    } catch (\Exception $e) {
                         $output->writeln([
-                            '--------',
-                            '檔案位置：'.$file->getRealPath()
-                        ]);
-                        $this->wordRepository->createOrUpdate($tempInput);
-                        $output->writeln([
-                            '儲存成功'.$value,
-                            '--------'
+                            '錯誤：'.$e->getMessage(),
+                            '路徑：'.$file->getRealPath(),
+                            '記憶體使用：'.memory_get_usage()
                         ]);
                     }
                 }
 
-                unset($array);
+                $count ++;
+                $output->writeln('目前完成：'.$count);
             }
-
-            $count ++;
-            $output->writeln('目前完成：'.$count);
+        } catch (\Exception $exception) {
+            $output->writeln('發生錯誤：'.$exception->getMessage());
         }
 
         $output->writeln([
@@ -93,21 +189,9 @@ class CrawlVariableCommand extends Command
             date('Y-m-d H:i:s')
         ]);
 
-        $output->writeln('...........................                              
-░░░▐▀▀▄█▀▀▀▀▀▒▄▒▀▌░░░░
-░░░▐▒█▀▒▒▒▒▒▒▒▒▀█░░░░░
-░░░░█▒▒▒▒▒▒▒▒▒▒▒▀▌░░░░
-░░░░▌▒██▒▒▒▒██▒▒▒▐░░░░
-░░░░▌▒▒▄▒██▒▄▄▒▒▒▐░░░░
-░░░▐▒▒▒▀▄█▀█▄▀▒▒▒▒█▄░░
-░░░▀█▄▒▒▐▐▄▌▌▒▒▄▐▄▐░░░
-░░▄▀▒▒▄▒▒▀▀▀▒▒▒▒▀▒▀▄░░
-░░█▒▀█▀▌▒▒▒▒▒▄▄▄▐▒▒▐░░
-░░░▀▄▄▌▌▒▒▒▒▐▒▒▒▀▒▒▐░░
-░░░░░░░▐▌▒▒▒▒▀▄▄▄▄▄▀░░
-░░░░░░░░▐▄▒▒▒▒▒▒▒▒▐░░░
-░░░░░░░░▌▒▒▒▒▄▄▒▒▒▐░░░
----------------------------------------------------------');
+        $output->writeln('...........................
+        
+        ---------------------------------------------------------');
     }
 
     /**
@@ -144,8 +228,13 @@ class CrawlVariableCommand extends Command
      */
     private function removeDollarIcon($string)
     {
-        $array = explode('$', $string);
-        $result = (!empty($array[0])) ? $array[0] : $array[1];
+        $result = '';
+
+        if (!empty($string)) {
+            $array = explode('$', $string);
+            $result = (!empty($array[0])) ? $array[0] : $array[1];
+            $string = null;
+        }
 
         return $result;
     }
@@ -162,10 +251,14 @@ class CrawlVariableCommand extends Command
         $matches = preg_split('/((?:^|[A-Z])[a-z]+)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE);
         $result = [];
 
-        foreach ($matches as $match) {
-            if (!empty($match)) {
-                $result[] = strtolower($match);
+        if (!empty($string)) {
+            foreach ($matches as $match) {
+                if (!empty($match)) {
+                    $result[] = strtolower($match);
+                }
             }
+
+            $string = null;
         }
 
         $matches = null;
