@@ -14,3 +14,6 @@ php bin/console doctrine:migrations:migrate，建立table
 --------------------------
 資料表格式：
 id , value, counts, from
+-----------------------
+視覺化-DataTable：https://omines.github.io/datatables-bundle/
+
