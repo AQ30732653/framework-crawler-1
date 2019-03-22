@@ -1,5 +1,5 @@
 <?php
-namespace App\Command;
+namespace App\Command\Gua;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,10 +12,10 @@ use ReflectionClass;
 use App\Repository\WordRepository;
 use ReflectionException;
 
-class CrawlMethodCommand extends Command
+class CrawlVariableCommand extends Command
 {
 // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'crawler:crawl-method';
+    protected static $defaultName = 'crawler:crawl-variable';
 
     protected $wordRepository;
 
@@ -29,7 +29,7 @@ class CrawlMethodCommand extends Command
     {
         $this
             // the short description shown while running "php bin/console list"
-            ->setDescription('爬蟲:專爬Method')
+            ->setDescription('爬蟲:專爬變數名稱')
 
             // the full command description shown when running the command with
             // the "--help" option
@@ -58,31 +58,29 @@ class CrawlMethodCommand extends Command
         foreach ($finder as $file) {
             $content = file_get_contents($file->getRealPath());
             $output->writeln('檔案名稱：'.$file->getFilename());
-            $methods = $this->getFunctionName($content);
+            $variables = $this->getVariable($content);
 
-            foreach ($methods as $method) {
-                preg_match_all('/[^\_]+/', $method, $specialWord);
+            foreach ($variables as $variable) {
 
-                if (!empty($specialWord[0])) {
-                    foreach ($specialWord[0] as $key => $simpleWord) {
-                        if ($key != 0) {
-                            $specialWord[0][$key] = ucwords($simpleWord);
-                        }
+                $array = $this->formatToArray($variable);
+
+                if (!empty($array)) {
+                    foreach ($array as $value) {
+                        $tempInput['value'] = $value;
+                        $tempInput['from'] = 'variable';
+                        $output->writeln([
+                            '--------',
+                            '檔案位置：'.$file->getRealPath()
+                        ]);
+                        $this->wordRepository->createOrUpdate($tempInput);
+                        $output->writeln([
+                            '儲存成功'.$value,
+                            '--------'
+                        ]);
                     }
-                    $name = implode("", $specialWord[0]);
-                    $inputName = $name;
-
-                } else {
-                    $inputName = $method;
                 }
 
-                $array = $this->formatToArray($inputName);
-
-                foreach ($array as $value) {
-                    $tempInput['value'] = $value;
-                    $tempInput['from'] = 'method';
-                    $this->wordRepository->createOrUpdate($tempInput);
-                }
+                unset($array);
             }
 
             $count ++;
@@ -94,62 +92,67 @@ class CrawlMethodCommand extends Command
             '======結束======',
             date('Y-m-d H:i:s')
         ]);
+
+        $output->writeln('...........................                              
+░░░▐▀▀▄█▀▀▀▀▀▒▄▒▀▌░░░░
+░░░▐▒█▀▒▒▒▒▒▒▒▒▀█░░░░░
+░░░░█▒▒▒▒▒▒▒▒▒▒▒▀▌░░░░
+░░░░▌▒██▒▒▒▒██▒▒▒▐░░░░
+░░░░▌▒▒▄▒██▒▄▄▒▒▒▐░░░░
+░░░▐▒▒▒▀▄█▀█▄▀▒▒▒▒█▄░░
+░░░▀█▄▒▒▐▐▄▌▌▒▒▄▐▄▐░░░
+░░▄▀▒▒▄▒▒▀▀▀▒▒▒▒▀▒▀▄░░
+░░█▒▀█▀▌▒▒▒▒▒▄▄▄▐▒▒▐░░
+░░░▀▄▄▌▌▒▒▒▒▐▒▒▒▀▒▒▐░░
+░░░░░░░▐▌▒▒▒▒▀▄▄▄▄▄▀░░
+░░░░░░░░▐▄▒▒▒▒▒▒▒▒▐░░░
+░░░░░░░░▌▒▒▒▒▄▄▒▒▒▐░░░
+---------------------------------------------------------');
     }
 
     /**
+     * 取得檔案內所有的變數
+     *
      * @param string $content
      *
      * @return array
      */
-    private function getFunctionName($content)
+    private function getVariable($content)
     {
-        preg_match_all('/function[\s+](\S*)\b\(/', $content, $matches, PREG_SET_ORDER);
+        preg_match_all('/\$[\w]*\b/', $content, $matches, PREG_SET_ORDER);
+
         $result = [];
 
         if (!empty($matches)) {
             foreach ($matches as $match) {
-                if (!empty($match) && !empty($match[1])) {
-                    $result[] = $match[1];
+                if (!empty($match[0])) {
+                    $result[] = $this->removeDollarIcon($match[0]);
                 }
             }
+            $matches = null;
         }
 
         return $result;
     }
 
     /**
+     * 去除錢字號
+     *
      * @param string $string
      *
      * @return string
      */
-    private function getFileName($string)
+    private function removeDollarIcon($string)
     {
-        $array = explode('.php', $string);
-        $result = (isset($array[0])) ? $array[0] : $array;
+        $array = explode('$', $string);
+        $result = (!empty($array[0])) ? $array[0] : $array[1];
 
         return $result;
     }
 
     /**
-     * @param string $content
+     * 拆解文字
      *
-     * @return string
-     */
-    private function getNameSpace($content)
-    {
-        preg_match('/namespace[\s\n]+(\S+)[\s\n]/', $content, $match);
-
-        if (!empty($match)) {
-            $nameSpace = (isset($match[1])) ? $match[1] : $match[0];
-            $array = explode(';', $nameSpace);
-            $result = (isset($array[0])) ? $array[0] : $array;
-            return $result;
-        }
-
-        return '';
-    }
-
-    /**
      * @param string $string
      *
      * @return array
@@ -165,24 +168,7 @@ class CrawlMethodCommand extends Command
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * @param string $filename
-     * @param string $content
-     *
-     * @return bool
-     */
-    private function isClassFile($filename, $content)
-    {
-        $pattern = '/class+[\s]+'.$filename.'/';
-        preg_match($pattern, $content, $match);
-        $result = true;
-
-        if (empty($match)) {
-            $result = false;
-        }
+        $matches = null;
 
         return $result;
     }
