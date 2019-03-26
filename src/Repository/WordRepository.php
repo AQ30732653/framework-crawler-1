@@ -53,7 +53,10 @@ class WordRepository extends ServiceEntityRepository
                 $entityManager->persist($word);
                 $entityManager->flush();
             }
+
+            $word = null;
             unset($word);
+            $entityManager->clear();
         } catch (\Exception $exception) {
             var_dump('記憶體使用：'.memory_get_usage());
             var_dump($exception->getMessage());exit;
