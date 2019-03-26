@@ -1,0 +1,35 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <table id="dt" class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>value</th>
+                <th>from</th>
+                <th>counts</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in datatable %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.value }}</td>
+                    <td>{{ item.from }}</td>
+                    <td>{{ item.counts }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            $("#dt").DataTable();
+        });
+    </script>
+{% endblock %}
